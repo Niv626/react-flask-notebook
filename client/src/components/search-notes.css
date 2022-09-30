@@ -1,0 +1,20 @@
+.search-notes {
+	display: flex;
+	align-items: center;
+	background-color: rgb(233, 233, 233);
+	border-radius: 10px;
+	padding: 5px;
+    margin-top: 20px;
+    margin-left: 10px;
+	margin-bottom: 1.5em;
+}
+
+.search-notes input {
+	border: none;
+	background-color: rgb(233, 233, 233);
+	width: 100%;
+}
+
+.search-notes input:focus {
+	outline: none;
+}

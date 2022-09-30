@@ -1,0 +1,21 @@
+.textarea {
+    background-color: #70986f;
+    border: none;
+    resize: none;
+
+}
+
+.textarea:focus {
+    outline: none;
+}
+
+.save {
+    background-color: blueviolet;
+    padding: 5px 10px 5px 10px;
+    border-radius: 15%;
+}
+
+body {
+    height: 100%;
+    background-color: #353739;
+}

@@ -1,0 +1,26 @@
+.note {
+    background-color: #eff6ce ;
+    border-radius: 12%;
+    padding: 1rem;
+    min-height: 170px;
+    max-height: 500px; 
+    height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+} 
+
+h1 {
+        color: #353739 !important;
+
+}
+
+.note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.delete-note {
+    cursor: pointer;
+}

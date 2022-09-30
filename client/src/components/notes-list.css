@@ -1,0 +1,17 @@
+.grid-notes {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5,250px);
+    grid-auto-rows: minmax(200px, auto);
+    row-gap: 20px;
+    gap: 70px;
+    grid-template-areas: "header header";
+    padding-left: 10px;
+}
+
+.grid-note {
+    max-height: 234px;
+    color: #353739;
+    min-width: 300px;
+}
+
