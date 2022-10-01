@@ -43,24 +43,22 @@ function App() {
 
   return (
       <NotesContext.Provider value={notesState}>
-      <Row style={{backgroundImage: "linear-gradient(to right, #adcef0, #e3e3e3 " , height: 57}}>
-        <TobBar/>
-      </Row>
-      <Row align='center'>
-        <Col md={9} style={{ padding: 6,paddingLeft: 25}}>
-          <SearchNotes handleSearchNote={setSearchText}></SearchNotes>
-      </Col>
-        <Col md={3}>
-          <DeleteOutlined onClick={deleteAllNotes} style={{color: 'white', fontSize:40 , paddingLeft: 30, marginTop: 21  }}></DeleteOutlined>
-        </Col>  
-      </Row>
-
-    <Row style={{ padding: 12 }}>
-      {console.log('searchText', searchText)}
-      <NotesList notes={notes.filter((note) =>
+        <Row style={{backgroundImage: "linear-gradient(to right, #adcef0, #e3e3e3 " , height: 57}}>
+          <TobBar/>
+        </Row>
+        <Row align='center'>
+          <Col md={9} style={{ padding: 6,paddingLeft: 25}}>
+            <SearchNotes handleSearchNote={setSearchText}></SearchNotes>
+          </Col>
+          <Col md={3}>
+            <DeleteOutlined onClick={deleteAllNotes} style={{color: 'white', fontSize:40 , paddingLeft: 30, marginTop: 21  }}></DeleteOutlined>
+          </Col>  
+        </Row>
+        <Row style={{ padding: 12 }}>
+          <NotesList notes={notes.filter((note) =>
 						note.text?.toLowerCase().includes(searchText)
-					)}/>
-    </Row>
+				  )}/>
+        </Row>
     </NotesContext.Provider>
   )
 }
