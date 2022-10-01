@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  server:
+    build:  ./flask-server
+    volumes: 
+    - ./flask-server:/app
+    environment: 
+      FLASK_DEBUG: True
+
+  web:
+    build: ./client/
+    ports: 
+      - "3000:3000"
+    depends_on: 
+      - server
+    links:
+      - loadbalancer
+    
+  loadbalancer:
+    image: 'dockercloud/haproxy:latest'
+    links:
+      - server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+    environment:
+      - BACKEND_PORT=5000
