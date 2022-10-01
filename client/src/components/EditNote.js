@@ -1,27 +1,37 @@
-import { EditOutlined } from '@ant-design/icons'
-import React, { useState } from 'react'
-import AddEditNoteModal from './AddEditNoteModal';
+import { EditOutlined } from "@ant-design/icons";
+import React, { useContext, useState } from "react";
+import { NotesContext } from "../App";
+import AddEditNoteModal from "./AddEditNoteModal";
 
-function EditNote({updateNote, noteId}) {
+function EditNote({ noteId }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { notes, setNotes } = useContext(NotesContext)
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const showModal = () => {
-      setIsModalOpen(true);
-    };
-  return (
-    <><EditOutlined onClick={showModal} />
-        <AddEditNoteModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          handleNote={updateNote}
-          title="Edit Note"
-          id={noteId}
-          route={`/edit-note/${noteId}`}
-        >
-        </AddEditNoteModal>
-        </>
-
-    )
+  const updateNote = ({ title, text, date, id }) => {    
+    notes.forEach((note, index) => {
+      if (note.id === id) {
+        notes[index] =  {...notes[index], title, text, date }
+      }
+  }) 
+  setNotes([...notes])
 }
 
-export default EditNote
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  return (
+    <>
+      {" "}
+      <EditOutlined onClick={showModal} />
+      <AddEditNoteModal isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleNote={updateNote}
+        title="Edit Note"
+        id={noteId}
+        route={`/edit-note/${noteId}`}
+      ></AddEditNoteModal>
+    </>
+  );
+}
+
+export default EditNote;

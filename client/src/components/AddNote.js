@@ -1,26 +1,31 @@
-import React, {  useState } from 'react'
-import api from '../api/notes'
+import React, {  useContext, useState } from 'react'
 import './add-note.css'
 import './notes-list.css'
 import './note.css'
 import { v1 as uuid } from 'uuid';
-import { Button, Modal, Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import AddEditNoteModal from './AddEditNoteModal'
-// import "antd/dist/antd.css";
+import { NotesContext } from '../App';
 
-const { TextArea } = Input;
+export const AddNote = () => {
 
+  const { notes, setNotes } = useContext(NotesContext)
 
-export const AddNote = ({handleAddNote}) => {
+  const addNote = ({ title, text, date, id }) => {
+    const newNote = {
+      title,
+      text,
+      date,
+      id
+    }
+    const newNotes = [...notes, newNote]
+    setNotes(newNotes)
+  }
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
-
-  
-
   
   return (
     <div className='add-note grid-note'>
@@ -30,57 +35,11 @@ export const AddNote = ({handleAddNote}) => {
 
       <AddEditNoteModal isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        handleNote={handleAddNote}
+        handleNote={addNote}
         title="Add New Note"
         route="/add-note"
         ></AddEditNoteModal>
-      {/* <Modal
-        title="Add New Note"
-        open={isModalOpen}
-        onOk={saveClick}
-        onCancel={handleCancel}>
-
-      <Input showCount maxLength={20} onChange={handleTitleChange} value={noteTitle} placeholder='title..'/>
-      <br />
-      <br />
-      <TextArea showCount maxLength={100} onChange={handleTextChange} value={noteText} placeholder='add text..'/>
-       </Modal> */}
       </div>
     </div>
   )
 }
-
-
-// import { Button, Modal } from 'antd';
-// import React, { useState } from 'react';
-
-// const App: React.FC = () => {
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-
-//   const showModal = () => {
-//     setIsModalOpen(true);
-//   };
-
-//   const handleOk = () => {
-//     setIsModalOpen(false);
-//   };
-
-//   const handleCancel = () => {
-//     setIsModalOpen(false);
-//   };
-
-//   return (
-//     <>
-//       <Button type="primary" onClick={showModal}>
-//         Open Modal
-//       </Button>
-//       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-//         <p>Some contents...</p>
-//         <p>Some contents...</p>
-//         <p>Some contents...</p>
-//       </Modal>
-//     </>
-//   );
-// };
-
-// export default App;

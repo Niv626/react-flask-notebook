@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './note.css'
-import { Button } from 'antd';
 import { MdDeleteForever } from 'react-icons/md';
-import { EditOutlined } from '@ant-design/icons';
 import EditNote from './EditNote';
+import { NotesContext } from '../App';
+import api from '../api/notes'
 
+const Note = ({ note, id }) => {
+  const { notes, setNotes } = useContext(NotesContext)
 
-const Note = ({ note, id, deleteNote, updateNote }) => {
-
-
+  const deleteNote = async (id) => {
+    try {
+      await api.delete(`/delete-note/${id}` )
+      const newNotes = notes.filter((note) => note.id !== id)
+      setNotes(newNotes)
+    }
+    catch (e) {
+      console.log(`Error: ${e.message}`)
+    }
+  }
 
   return (
     <>
@@ -26,8 +35,7 @@ const Note = ({ note, id, deleteNote, updateNote }) => {
 					      size='1.3em'
 				      />
             <div className='update-note' style={{ float: 'left', paddingRight: 10 }}>
-              <EditNote updateNote={updateNote} noteId={id}></EditNote>
-              {/* <EditOutlined onClick={() => updateNote(id)}/> */}
+              <EditNote noteId={id}></EditNote>
             </div>  
         </div>
         </div>
