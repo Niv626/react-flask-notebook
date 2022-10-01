@@ -88,4 +88,4 @@ def delete_all_note():
 
 if __name__ == "__main__":
     notebook = Notebook()
-    app.run(host="0.0.0.0", debug=True)   
+    app.run(host="0.0.0.0")   
