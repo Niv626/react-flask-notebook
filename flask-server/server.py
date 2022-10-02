@@ -1,40 +1,65 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 # from flask_pymongo import PyMongo
 from pymongo import MongoClient
 from flask_cors import CORS
 from notebook import Notebook, Note
 from setup_logger import logger
 from datetime import datetime
+# from user import routes
 import json
 
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
+app.secret_key = 'asd'
 # app.config['MONGO_URI'] = 'mongodb+srv://NivE626:qvb13579@mongocluster.danqklq.mongodb.net/?retryWrites=true&w=majority'
-
 
 cors = CORS(app)
 
 cluster = MongoClient( "mongodb+srv://NivE626:qvb13579@mongocluster.danqklq.mongodb.net/?retryWrites=true&w=majority", connect=False,)
 db = cluster["NoteBookDb"]
-collection = db["notes"]
+notes_collection = db["notes"]
+users_collections = db["users"]
 
+# def start_session(self, user): 
+#     session['logged_in'] = True
+#     session['user'] = user
+#     return { "session": session }
+
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    logger.info(data)
+    user = {
+        "_id": data.get('id'),
+        "email": data.get('email'),
+        "password": data.get('password')
+    }
+
+    if users_collections.find_one({"email": user["email"]}):
+        return {"error": "Email address is already in use"}
+    users_collections.insert_one(user)
+    return {}, 200
+
+@app.route('/login', methods=['POST'])
+def sing_in():
+    data = request.get_json()
+    logger.info(data)
+    user = users_collections.find_one({"email": data.get("email")})
+    if user:
+
+        # start_session(user)
+        return {"user": user}
+    return {'error': "Invalid login credentials"}
+    # return User().sign_up()    
 
 @app.route('/notes')
 def get_notes():
-    # notes = notebook.get_notes()
-    # notesList = []
-    # for note in notes:
-    #     notesList.append({
-    #         "title": note.title,
-    #         "text": note.text,
-    #         "date": note.date,
-    #         "id": note.get_id()
-    #     })
     notes = []
-    logger.info(collection)
-
-    notes_db = collection.find({})
+    logger.info(notes_collection)
+    notes_db = notes_collection.find({})
     
     for note in notes_db: 
         del note["_id"]
@@ -45,7 +70,7 @@ def get_notes():
 @app.route('/add-note', methods=['POST'])
 def add_note():
     data = request.get_json()
-    collection.insert_one({
+    notes_collection.insert_one({
         'id': data.get('id'),
         'title': data.get('title'),
         'text': data.get('text'),
@@ -62,7 +87,7 @@ def edit_note(id):
     data = request.get_json()
     logger.info(id)
     # res = notebook.remove_note_by_id(id)  
-    collection.update_many({"id": id},
+    notes_collection.update_many({"id": id},
         {"$set": {'title': data.get('title'), 'text': data.get('text')}})
     return {
         "success": True
@@ -72,7 +97,7 @@ def edit_note(id):
 def delete_note(id):
     logger.info(id)
     # res = notebook.remove_note_by_id(id)  
-    collection.delete_one({"id": id})
+    notes_collection.delete_one({"id": id})
     return {
         "success": True
     }
@@ -80,7 +105,7 @@ def delete_note(id):
 @app.route('/delete-all-notes', methods=['DELETE'])
 def delete_all_note():
     # notebook.remove_all_notes()
-    collection.delete_many({})
+    notes_collection.delete_many({})
     return {
         "success":  True
     }   

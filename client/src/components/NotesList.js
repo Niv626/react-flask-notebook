@@ -2,12 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import Note from './Note'
 import './notes-list.css'
 import { AddNote } from './AddNote'
-import Header from './Header'
+import { NotesContext } from './Dashboard'
 // import {  addNote } from './app/features/notes/notesSlice'
-import { useSelector, useDispatch } from 'react-redux'
-import { addNote , getAllNotes, fetchNotes} from '../app/features/notes/notesSlice'
-import { useGetNotesQuery } from '../app/features/api/apiSlice'
-import { NotesContext } from '../App'
 
 
 const NotesList = ({

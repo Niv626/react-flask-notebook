@@ -39,10 +39,8 @@ function AddEditNoteModal({handleNote, title,isModalOpen, setIsModalOpen, route,
     setNoteText('')
     setNoteTitle('')
     setIsModalOpen(false);
-
   }
-
-
+  
   const handleCancel = () => {
     setIsModalOpen(false);
   }
