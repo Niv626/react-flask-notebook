@@ -21,10 +21,10 @@ db = cluster["NoteBookDb"]
 notes_collection = db["notes"]
 users_collections = db["users"]
 
-# def start_session(self, user): 
-#     session['logged_in'] = True
-#     session['user'] = user
-#     return { "session": session }
+def start_session( user): 
+    session['logged_in'] = True
+    session['user'] = user
+    return { "session": session }
 
 
 
@@ -33,7 +33,6 @@ def register():
     data = request.get_json()
     logger.info(data)
     user = {
-        "_id": data.get('id'),
         "email": data.get('email'),
         "password": data.get('password')
     }
@@ -44,14 +43,14 @@ def register():
     return {}, 200
 
 @app.route('/login', methods=['POST'])
-def sing_in():
+def sign_in():
     data = request.get_json()
-    logger.info(data)
-    user = users_collections.find_one({"email": data.get("email")})
+    logger.info(data.get("mail"))
+    user = users_collections.find_one({"mail": data.get("email")})
+    session = start_session(user)
+    logger.info(user)
     if user:
-
-        # start_session(user)
-        return {"user": user}
+        return {"session": session}
     return {'error': "Invalid login credentials"}
     # return User().sign_up()    
 

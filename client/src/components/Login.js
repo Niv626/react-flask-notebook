@@ -1,26 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import { Link,Navigate  } from "react-router-dom";
 import api from '../api/notes'
+import { AppContext } from "../App";
+import AuthContext from "../context/AuthProvider";
 
 import "./login.css";
 
 function Login() {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // User Login info
-  const database = [
-    {
-      username: "user1",
-      password: "pass1"
-    },
-    {
-      username: "user2",
-      password: "pass2"
-    }
-  ];
+  const [logged_in, setLoggedIn] = useState({})
+  const { auth, setAuth } = useContext(AppContext)
+  console.log('first', auth)
 
   const errors = {
     uname: "invalid username",
@@ -31,34 +23,37 @@ function Login() {
     //Prevent page reload
     event.preventDefault();
 
-    var { uname, pass } = document.forms[0];
-
     // Find user login info
     // const userData = database.find((user) => user.username === uname.value);
     const userData = async () => {
-        try {
-          api.post(`/login`,  JSON.stringify({"mail": uname}),{})
-        }
-        catch (e) {
-          console.error( e)
-        }
-      }
-      userData()
-
-      console.log('userData', userData)
-
+        
+          api.post(`/login`,JSON.stringify({"mail": document.forms[0][0].value}))
+          .then((res) => {
     // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
+    setLoggedIn(res)
+    console.log('res', res)
+    console.log('logged_in.data.session', res?.data?.session?.session)
+    if (res?.data?.session?.session?.logged_in) {
+      if (res.data.session?.session.user.password !==document.forms[0][1].value) {
         // Invalid password
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
-        setIsSubmitted(true);
+        setAuth(true);
       }
     } else {
       // Username not found
       setErrorMessages({ name: "uname", message: errors.uname });
     }
+           }
+            )
+          .catch((e)=> console.log('e', e))
+        
+
+      }
+      userData()
+
+
+
   };
 
   // Generate JSX code for error message
@@ -91,9 +86,9 @@ function Login() {
   return (
     <div className="app">
       <div className="login-form">
-        <div className="title"><b>Sign In</b></div>
-        <h3 style={{ paddingBottom: 5}}>Not registered yet? <Link to="/">Sign Up</Link></h3>
-        {isSubmitted ? <Navigate  to="/dashboard"></Navigate > : renderForm}
+        <div  className="title"><b>Sign In</b></div>
+        <h3 style={{ paddingBottom: 5}}>Not registered yet? <Link to="/register">Sign Up</Link></h3>
+        {auth ? <Navigate  to="/dashboard"></Navigate > : renderForm}
       </div>
     </div>
   );

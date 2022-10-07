@@ -1,11 +1,17 @@
-import React, { useRef, useState } from "react"
+import React, { useContext, useRef, useState } from "react"
 import { Form, Button, Alert } from "react-bootstrap"
 // import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate  } from "react-router-dom"
 import {  Card  } from 'antd'
+import api from '../api/notes'
+
+
+import './register.css'
+import { AppContext } from "../App"
 
 
 const Register = () => {
+        const { setAuth }=useContext(AppContext)
         const emailRef = useRef()
         const passwordRef = useRef()
         const passwordConfirmRef = useRef()
@@ -24,8 +30,10 @@ const Register = () => {
           try {
             setError("")
             setLoading(true)
-            // await signup(emailRef.current.value, passwordRef.current.value)
-            history.push("/")
+            await api.post(`/register`, JSON.stringify({"email":emailRef.current.value, "password": passwordRef.current.value}))
+            .then(() => setAuth(true)
+            )
+            history.push("/dashboard")
           } catch {
             setError("Failed to create an account")
           }
@@ -35,9 +43,10 @@ const Register = () => {
       
     return (
       <>
-        <div className="ml-4" style={{ width: "400px", margin: "100 auto", backgroundColor: 'white'}}>
+      <div className="register">
+        <div className="ml-4" style={{ width: "406px",padding: 100, margin: "100 auto", backgroundColor: 'white'}}>
           {/* <Card.Body> */}
-            <h2 className="text-center mb-4">Sign Up</h2>
+            <h2 className="text-center mb-4 ">Sign Up</h2>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group id="email">
@@ -52,18 +61,22 @@ const Register = () => {
                 <Form.Label>Password Confirmation</Form.Label>
                 <Form.Control type="password" ref={passwordConfirmRef} required />
               </Form.Group>
-              <Button disabled={loading} className="w-100" type="submit">
+              <div className="button-container">
+              <button disabled={loading} className="w-100" type="submit">
                 Sign Up
-              </Button>
+              </button>
+              </div>
             </Form>
           {/* </Card.Body> */}
           <div className="w-100 text-center mt-2">
           Already have an account? <Link to="/">Log In</Link>
         </div>
         </div>
-
+        </div>
       </>
     )  
 }
 
 export default Register
+
+

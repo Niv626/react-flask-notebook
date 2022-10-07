@@ -17,6 +17,8 @@ function Dashboard() {
   const [notes, setNotes] = useState([{}])
   const notesState = { notes, setNotes }
   const [searchText, setSearchText] = useState('');
+//   const [isSubmitted, setIsSubmitted] = useState(false);
+
   
   useEffect(() => {
     const fetchNotes = async () => {
@@ -44,8 +46,8 @@ function Dashboard() {
 
   return (
       <NotesContext.Provider value={notesState}>
-        <Row style={{backgroundImage: "linear-gradient(to right, #adcef0, #e3e3e3 " , height: 57}}>
-          <TobBar/>
+        <Row style={{backgroundImage: "linear-gradient(to right, #adcef0, #e3e3e3 " , height: 57, display:'block'}}>
+          <TobBar />
         </Row>
         <Row align='center'>
           <Col md={9} style={{ padding: 6,paddingLeft: 25}}>
