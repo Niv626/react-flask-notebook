@@ -4,18 +4,15 @@ import { Form, Button, Alert } from "react-bootstrap"
 import { Link, useNavigate  } from "react-router-dom"
 import {  Card  } from 'antd'
 import api from '../api/notes'
-
-
 import './register.css'
 import { AppContext } from "../App"
 
 
 const Register = () => {
-        const { setAuth }=useContext(AppContext)
+        const { auth, setAuth }=useContext(AppContext)
         const emailRef = useRef()
         const passwordRef = useRef()
         const passwordConfirmRef = useRef()
-        // const { signup } = useAuth()
         const [error, setError] = useState("")
         const [loading, setLoading] = useState(false)
         const history = useNavigate ()
@@ -31,9 +28,11 @@ const Register = () => {
             setError("")
             setLoading(true)
             await api.post(`/register`, JSON.stringify({"email":emailRef.current.value, "password": passwordRef.current.value}))
-            .then(() => setAuth(true)
+            .then((res) => {
+                setAuth(true)
+                localStorage.setItem('user', JSON.stringify(res.data.user));
+            }
             )
-            history.push("/dashboard")
           } catch {
             setError("Failed to create an account")
           }
@@ -44,11 +43,12 @@ const Register = () => {
     return (
       <>
       <div className="register">
-        <div className="ml-4" style={{ width: "406px",padding: 100, margin: "100 auto", backgroundColor: 'white'}}>
+        <div className="ml-4" style={{ width: "395px",padding: 100, margin: "100 auto", backgroundColor: 'white'}}>
           {/* <Card.Body> */}
-            <h2 className="text-center mb-4 ">Sign Up</h2>
+            <h2 className="text-center mb-4" ><b>Sign Up</b></h2>
             {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
+            Already have an account? <Link to="/">Log In</Link>
+            <Form style={{ marginTop: 15}} onSubmit={handleSubmit}>
               <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control type="email" ref={emailRef} required />
@@ -69,7 +69,6 @@ const Register = () => {
             </Form>
           {/* </Card.Body> */}
           <div className="w-100 text-center mt-2">
-          Already have an account? <Link to="/">Log In</Link>
         </div>
         </div>
         </div>

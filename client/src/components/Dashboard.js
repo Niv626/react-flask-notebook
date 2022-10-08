@@ -17,13 +17,14 @@ function Dashboard() {
   const [notes, setNotes] = useState([{}])
   const notesState = { notes, setNotes }
   const [searchText, setSearchText] = useState('');
+  const userId = JSON.parse(localStorage.getItem('user'))?.["_id"] || ''
 //   const [isSubmitted, setIsSubmitted] = useState(false);
 
   
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await api.get('/notes')
+        const res = await api.get(`/notes/${userId}`)
         setNotes(res.data)
       }
       catch (e) {
@@ -58,8 +59,9 @@ function Dashboard() {
           </Col>  
         </Row>
         <Row style={{ padding: 12 }}>
-          <NotesList notes={notes.filter((note) =>
-						note.text?.toLowerCase().includes(searchText)
+          <NotesList notes={notes.filter((note) => {
+						return note.text?.toLowerCase().includes(searchText) || 
+                        note.title?.toLowerCase().includes(searchText)}
 				  )}/>
         </Row>
     </NotesContext.Provider>

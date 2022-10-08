@@ -1,5 +1,5 @@
-.app {
-    font-family: sans-serif;
+.register {
+    /* font-family: sans-serif; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,7 +8,7 @@
     height: 80vh;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
     background-color: #353739;
-    padding: 50px;
+    padding: 75px;
   }
   
   input[type="text"],

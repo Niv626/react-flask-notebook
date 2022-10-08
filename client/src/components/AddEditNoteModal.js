@@ -22,9 +22,9 @@ function AddEditNoteModal({handleNote, title,isModalOpen, setIsModalOpen, route,
       title: noteTitle,
       text: noteText,
       date: new Date().toLocaleString('en-GB', { timeZone: 'UTC' }),
-      id: id ?? uuid()
+      id: id ?? uuid(),
+      userId: JSON.parse(localStorage.getItem('user'))["_id"]
     }
-    console.log('route', route)
     handleNote(note)
     const fetchNotes = async () => {
       try {

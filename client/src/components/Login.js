@@ -12,7 +12,6 @@ function Login() {
   const [errorMessages, setErrorMessages] = useState({});
   const [logged_in, setLoggedIn] = useState({})
   const { auth, setAuth } = useContext(AppContext)
-  console.log('first', auth)
 
   const errors = {
     uname: "invalid username",
@@ -24,36 +23,28 @@ function Login() {
     event.preventDefault();
 
     // Find user login info
-    // const userData = database.find((user) => user.username === uname.value);
     const userData = async () => {
-        
-          api.post(`/login`,JSON.stringify({"mail": document.forms[0][0].value}))
+        api.post(`/login`,JSON.stringify({"mail": document.forms[0][0].value}))
           .then((res) => {
     // Compare user info
     setLoggedIn(res)
-    console.log('res', res)
-    console.log('logged_in.data.session', res?.data?.session?.session)
+
     if (res?.data?.session?.session?.logged_in) {
-      if (res.data.session?.session.user.password !==document.forms[0][1].value) {
+      if (res.data.session?.session.user.password !== document.forms[0][1].value) {
         // Invalid password
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
         setAuth(true);
+        localStorage.setItem('user', JSON.stringify(res.data.session?.session.user));
+
       }
     } else {
       // Username not found
       setErrorMessages({ name: "uname", message: errors.uname });
+    }}).catch((e)=> console.log('e', e))
+
     }
-           }
-            )
-          .catch((e)=> console.log('e', e))
-        
-
-      }
       userData()
-
-
-
   };
 
   // Generate JSX code for error message
@@ -88,7 +79,7 @@ function Login() {
       <div className="login-form">
         <div  className="title"><b>Sign In</b></div>
         <h3 style={{ paddingBottom: 5}}>Not registered yet? <Link to="/register">Sign Up</Link></h3>
-        {auth ? <Navigate  to="/dashboard"></Navigate > : renderForm}
+        {auth && JSON.parse(localStorage.getItem('user')) ? <Navigate  to="/dashboard"></Navigate > : renderForm}
       </div>
     </div>
   );

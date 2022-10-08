@@ -9,22 +9,11 @@ import { NotesContext } from './Dashboard'
 const NotesList = ({
 	handleAddNote,
 	deleteNote,
-  updateNote
+  updateNote,
+  notes
 }) => {
 
-  const { notes } = useContext(NotesContext)
-  // const dispatch = useDispatch()
-
-  // const notesRedux = useSelector(getAllNotes)
-  // useEffect(() => {
-    
-  //   dispatch(fetchNotes())
-  // }, [dispatch])
-
-  // console.log('notesRedux', notesRedux)
-  // const { data, isFetching } = useGetNotesQuery()
-  // console.log('notesRedux-fromfetch', data)
-
+  console.log('notes in note list', notes)
   return (
     <>
       <div className='grid-notes'>
