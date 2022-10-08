@@ -12,7 +12,7 @@
 - Frontend:
   - Language: JavaScript
   - Framework: ReactJs
-- Docker:
+- Docker
   - 
  
 ## Install
