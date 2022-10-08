@@ -2,6 +2,8 @@ import React from 'react'
 import Note from './Note'
 import './notes-list.css'
 import { AddNote } from './AddNote'
+import { NotesContext } from './Dashboard'
+// import {  addNote } from './app/features/notes/notesSlice'
 
 
 
@@ -9,20 +11,10 @@ const NotesList = ({
   notes,
 	handleAddNote,
 	deleteNote,
-  updateNote
+  updateNote,
+  notes
 }) => {
 
-  // const dispatch = useDispatch()
-
-  // const notesRedux = useSelector(getAllNotes)
-  // useEffect(() => {
-    
-  //   dispatch(fetchNotes())
-  // }, [dispatch])
-
-  // console.log('notesRedux', notesRedux)
-  // const { data, isFetching } = useGetNotesQuery()
-  // console.log('notesRedux-fromfetch', data)
 
   return (
     <>

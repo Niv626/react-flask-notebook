@@ -1,7 +1,7 @@
 import { EditOutlined } from "@ant-design/icons";
 import React, { useContext, useState } from "react";
-import { NotesContext } from "../App";
 import AddEditNoteModal from "./AddEditNoteModal";
+import { NotesContext } from "./Dashboard";
 
 function EditNote({ noteId }) {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -5,7 +5,7 @@ import './note.css'
 import { v1 as uuid } from 'uuid';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import AddEditNoteModal from './AddEditNoteModal'
-import { NotesContext } from '../App';
+import { NotesContext } from './Dashboard';
 
 export const AddNote = () => {
 

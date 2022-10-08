@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import './note.css'
 import { MdDeleteForever } from 'react-icons/md';
 import EditNote from './EditNote';
-import { NotesContext } from '../App';
 import api from '../api/notes'
+import { NotesContext } from './Dashboard';
 
 const Note = ({ note, id }) => {
   const { notes, setNotes } = useContext(NotesContext)
@@ -21,7 +21,6 @@ const Note = ({ note, id }) => {
 
   return (
     <>
-    {console.log('note', note)}
     <div className="note" >
         <h1 >{note.title}</h1>
         <h3>{note.text}</h3>
