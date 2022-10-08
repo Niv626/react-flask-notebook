@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 import Note from './Note'
 import './notes-list.css'
 import { AddNote } from './AddNote'
@@ -6,14 +6,16 @@ import { NotesContext } from './Dashboard'
 // import {  addNote } from './app/features/notes/notesSlice'
 
 
+
 const NotesList = ({
+  notes,
 	handleAddNote,
 	deleteNote,
   updateNote,
   notes
 }) => {
 
-  console.log('notes in note list', notes)
+
   return (
     <>
       <div className='grid-notes'>
@@ -26,7 +28,6 @@ const NotesList = ({
             note={note} /> 
         </div>
         )}
-
       </div>
 
     </>

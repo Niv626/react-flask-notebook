@@ -20,7 +20,6 @@ function App() {
       <Route exact path="/" element={auth && JSON.parse(localStorage.getItem('user')) ? <Dashboard/>: <Login/>} />
     </Routes>
     </AppContext.Provider>
-
   )
 }
 
