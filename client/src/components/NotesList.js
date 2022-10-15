@@ -11,8 +11,7 @@ const NotesList = ({
   notes,
 	handleAddNote,
 	deleteNote,
-  updateNote,
-  notes
+  updateNote
 }) => {
 
 
